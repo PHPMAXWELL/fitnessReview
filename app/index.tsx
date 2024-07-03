@@ -1,12 +1,12 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { LinearGradient } from "expo-linear-gradient";
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { TouchableOpacity } from "react-native-gesture-handler";
+//import { GestureHandlerRootView } from 'react-native-gesture-handler';
+//import { TouchableOpacity } from "react-native-gesture-handler";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -56,7 +56,7 @@ const Index = () => {
           <Animated.View entering={FadeInDown.delay(200).springify()}
            className="flex flex-row justify-between"
            style={{flexDirection:'row'}}>
-            <GestureHandlerRootView
+            <TouchableOpacity
               onPress={() => router.push("/registration")}
             >
               <Text
@@ -65,8 +65,8 @@ const Index = () => {
               >
                 Inscription
               </Text>
-            </GestureHandlerRootView>
-            <GestureHandlerRootView
+            </TouchableOpacity>
+            <TouchableOpacity
               onPress={() => router.push("/registration")}
               //style={{ height: hp(7), width: wp(80) }}
               //className="bg-rose-100 flex items-center justify-center mx-auto "
@@ -77,10 +77,10 @@ const Index = () => {
               >
                 Connexion
               </Text>
-            </GestureHandlerRootView>
+            </TouchableOpacity>
           </Animated.View>
         <Animated.View entering={FadeInDown.delay(200).springify()}>
-          <GestureHandlerRootView
+          <TouchableOpacity
             onPress={() => router.push("/home")}
             style={{ height: hp(7), width: wp(80) }}
             className="bg-rose-500 flex items-center justify-center mx-auto"
@@ -89,9 +89,9 @@ const Index = () => {
               style={{ fontSize: hp(3) }}
               className="text-white font-bold tracking-widest"
             >
-              Démarrer !
+              Démo!
             </Text>
-          </GestureHandlerRootView>
+          </TouchableOpacity>
         </Animated.View>
       </LinearGradient>
       <StatusBar style="light" />

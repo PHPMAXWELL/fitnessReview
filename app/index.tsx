@@ -10,15 +10,25 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import MenuButton from "../components/MenuButton";
 
 const Index = () => {
   const router = useRouter();
   return (
-    <View className="flex-1 flex justify-end">
-      <Image
+    <View className="flex-1 flex justify-between">
+       <Image
         className="h-full w-full absolute"
         source={require("../assets/images/welcome.png")}
       />
+    <View className="flex flex-row justify-between">
+      <Image
+          source={require("../assets/images/logo-app.png")}
+          style={{ width: 80, height: 80, marginTop: 40 }} 
+        />
+         <MenuButton/>
+    </View>
+   
+    <View className="flex-1 flex justify-end">
       <LinearGradient
         colors={["transparent", "#18181b"]}
         style={{ width: wp(100), height: hp(70) }}
@@ -31,23 +41,49 @@ const Index = () => {
           className="flex items-center"
         >
           <Text
-            style={{ fontSize: hp(5.5) }}
+            style={{ fontSize: hp(5.5),textAlign:'center'}}
             className="text-white font-bold tracking-wide"
           >
             Les meilleurs<Text className="text-rose-500"> Entraînements</Text>
           </Text>
           <Text
-            style={{ fontSize: hp(5.5) }}
+            style={{ fontSize: hp(5.5)}}
             className="text-white font-bold tracking-wide"
           >
             Pour vous
-          </Text>
+          </Text> 
         </Animated.View>
+          <Animated.View entering={FadeInDown.delay(200).springify()}
+           className="flex flex-row justify-between"
+           style={{flexDirection:'row'}}>
+            <GestureHandlerRootView
+              onPress={() => router.push("/registration")}
+            >
+              <Text
+                style={{ fontSize: hp(3), marginLeft:10 }}
+                className="text-white font-bold tracking-widest"
+              >
+                Inscription
+              </Text>
+            </GestureHandlerRootView>
+            <GestureHandlerRootView
+              onPress={() => router.push("/registration")}
+              //style={{ height: hp(7), width: wp(80) }}
+              //className="bg-rose-100 flex items-center justify-center mx-auto "
+            >
+              <Text
+                style={{ fontSize: hp(3), marginRight:10 }}
+                className="text-white font-bold tracking-widest"
+              >
+                Connexion
+              </Text>
+            </GestureHandlerRootView>
+          </Animated.View>
         <Animated.View entering={FadeInDown.delay(200).springify()}>
           <GestureHandlerRootView
             onPress={() => router.push("/home")}
             style={{ height: hp(7), width: wp(80) }}
-            className="bg-rose-500 flex items-center justify-center mx-auto rounded-full border-[1px] border-neutral-200"
+            className="bg-rose-500 flex items-center justify-center mx-auto"
           >
             <Text
               style={{ fontSize: hp(3) }}
@@ -59,6 +95,7 @@ const Index = () => {
         </Animated.View>
       </LinearGradient>
       <StatusBar style="light" />
+    </View>
     </View>
   );
 };

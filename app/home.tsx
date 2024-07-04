@@ -7,8 +7,8 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import ImageCarousel from "../components/ImageCarousel";
-//import BodyParts from "../components/BodyParts";
+import Swiper from "../components/Swiper"
+import BodyParts from "../components/BodyParts";
 
 const Home = () => {
   return (
@@ -34,7 +34,7 @@ const Home = () => {
         <View className="flex justify-center items-center space-y-2">
           <Image
             source={require("../assets/images/avatar.png")}
-            style={{ height: hp(6), width: hp(6) }}
+            style={{ height: hp(6), width: hp(6),resizeMode: "contain" }}
             className="rounded-full"
           />
           <View
@@ -47,12 +47,12 @@ const Home = () => {
       </View>
 
       {/* image carousel */}
-      <View>
-        <ImageCarousel />
+      <View className="flex-1">
+        <Swiper />
       </View>
 
       {/* body parts list */}
-      <View className="flex-1">
+      <View  className="flex-1">
         <BodyParts />
       </View>
     </SafeAreaView>

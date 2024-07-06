@@ -1,35 +1,31 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, Alert, Keyboard ,Image} from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, StyleSheet, Alert, Keyboard } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
   } from "react-native-responsive-screen";
 import axios from 'axios';
-import Login from './login';
 import { useRouter } from "expo-router";
 
 
-const RegistrationScreen = () => {
+
+const Login = () => {
   const router = useRouter();
-  const [usernom, setUsernom] = useState('');
-  const [userprenom, setUserprenom] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  
   const [errorMessage, setErrorMessage] = useState('');
 
   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleRegister = async() => {
-    if (!usernom || !userprenom || !email || !password || !confirmPassword) {
+    if ( !email || !password) {
       setErrorMessage('Veuillez remplir tous les champs.');
     } else if (!emailRegex.test(email)) {
         setErrorMessage('Veuillez saisir une adresse e-mail valide.');
       } else if (!passwordRegex.test(password)) {
       setErrorMessage('Le mot de passe doit contenir au moins 8 caractères, dont au moins une minuscule, une majuscule et un chiffre.');
-    } else if (password !== confirmPassword) {
-      setErrorMessage('Les mots de passe ne correspondent pas.');
     } else {
         try {
           // Envoi des données au serveur
@@ -39,22 +35,24 @@ const RegistrationScreen = () => {
           // });;
           const options = {
             method: 'POST',
-            url:'http://172.20.10.5:3000/api/register',
+            url:'http://172.20.10.5:3000/api/login',
             headers: {
               //'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json'     
           },
-            data: {usernom: usernom,
-              userprenom: userprenom,
+            data: {
               email: email,
-              password: password},
-              
+              password: password
+            }, 
         };
         const response = await axios.request(options)
-      .then(response => {
-            Alert.alert('Inscription réussie', 'Vous êtes maintenant inscrit !');
+      .then(function (response) {
+        const data = response.data.message;
             return (
-              router.push("/login")
+                 router.push({pathname:"/home",
+                  params:  {message:data}
+                 })
+                 
             );
 
           })
@@ -65,11 +63,8 @@ const RegistrationScreen = () => {
          
           //console.log(usernom,userprenom,email,password);
           // Réinitialiser les champs de saisie et les messages d'erreur
-          setUsernom('');
-          setUserprenom('');
           setEmail('');
           setPassword('');
-          setConfirmPassword('');
           setErrorMessage('');
             // Faire replier le clavier
             Keyboard.dismiss();
@@ -85,7 +80,7 @@ const RegistrationScreen = () => {
   return (
     <View
     className="flex-1 flex justify-center">
-    <View
+      <View
     style={{ height: hp(10), width: wp(100) }}
     className="bg-rose-500 flex items-center justify-end mx-auto"
     >
@@ -95,24 +90,12 @@ const RegistrationScreen = () => {
         /> */}
     </View>
     <Text
-            style={{ fontSize: hp(3),textAlign:'center',marginTop:10}}
+            style={{ fontSize: hp(3),textAlign:'center',marginTop:60}}
             className="text-black font-bold tracking-wide"
         >
-          Inscription
-    </Text>
+          Connexion
+        </Text>
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Votre Nom"
-        value={usernom}
-        onChangeText={setUsernom}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Votre Prénom"
-        value={userprenom}
-        onChangeText={setUserprenom}
-      />
       <TextInput
         style={styles.input}
         placeholder="Adresse e-mail"
@@ -127,18 +110,14 @@ const RegistrationScreen = () => {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Confirmer le mot de passe"
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-      />
       <TouchableOpacity style={{ height: hp(7), width: wp(80) }}
             className="bg-rose-500 flex items-center justify-center mx-auto"
              onPress={handleRegister}>
-        <Text style={{ fontSize: hp(3) }}
-          className="text-white font-bold tracking-widest">S'inscrire</Text>
+        
+        <Text 
+          style={{ fontSize: hp(3) }}
+          className="text-white font-bold tracking-widest"
+        >Se connecter</Text>
       </TouchableOpacity>
       {errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
     </View>
@@ -149,9 +128,9 @@ const RegistrationScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop:40,
+    marginTop:80,
     alignItems: 'center',
-    padding: 5,
+    padding: 20,
   },
   input: {
     width: '100%',
@@ -178,4 +157,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegistrationScreen;
+export default Login;

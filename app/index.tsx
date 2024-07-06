@@ -67,7 +67,7 @@ const Index = () => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => router.push("/registration")}
+              onPress={() => router.push("/login")}
               //style={{ height: hp(7), width: wp(80) }}
               //className="bg-rose-100 flex items-center justify-center mx-auto "
             >

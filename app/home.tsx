@@ -9,8 +9,10 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Swiper from "../components/Swiper"
 import BodyParts from "../components/BodyParts";
+import { useLocalSearchParams } from "expo-router";
 
 const Home = () => {
+  const { message } = useLocalSearchParams();
   return (
     <SafeAreaView className="flex-1 bg-white flex space-y-5" edges={["top"]}>
       <StatusBar style="dark" />
@@ -19,24 +21,33 @@ const Home = () => {
       <View className="flex-row justify-between items-center mx-5">
         <View className="space-y-2">
           <Text
-            style={{ fontSize: hp(4.5) }}
+            style={{ fontSize: hp(4) }}
             className="font-bold tracking-wider text-neutral-700"
           >
             PRÊT À
           </Text>
           <Text
-            style={{ fontSize: hp(4.5) }}
+            style={{ fontSize: hp(4) }}
             className="font-bold tracking-wider text-rose-500"
           >
-            S'ENTRAÎNER
+            S'ENTRAÎNER 
           </Text>
+          <Text
+            style={{ fontSize: hp(3) }}
+            className="flex items-center justify-center font-bold tracking-wider text-black-500"
+          >
+          {(message ? ` ${message}` : '')}
+          </Text>
+
         </View>
-        <View className="flex justify-center items-center space-y-2">
-          <Image
+        <View className=" justify-center items-center space-y-2  border-neutral-300">
+          {/* <Image
             source={require("../assets/images/avatar.png")}
             style={{ height: hp(6), width: hp(6),resizeMode: "contain" }}
             className="rounded-full"
-          />
+          /> */}
+           <Ionicons name="person-circle" size={hp(7)} color="gray" 
+           />
           <View
             className="bg-neutral-200 flex justify-center items-center border-[2px] border-neutral-300"
             style={{ height: hp(5.5), width: hp(5.5) }}

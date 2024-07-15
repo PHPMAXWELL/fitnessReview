@@ -19,6 +19,29 @@ const pool = new Pool({
   port: 5432,
 });
 
+const checkUser = (req, res, next)=>{
+  const token = req.cookies.tokenAuth
+  jwt.verify(token, SECRET_KEY, (err, decoded)=>{
+      if(err) {
+          return res.json({Message : "Erreur"})
+      }else{
+          req.nom = decoded.nom
+          next()
+      }
+
+  })
+}
+
+app.get('/', checkUser, (req, res)=>{
+  return res.json({Status : "OK", Nom: req.nom})
+})
+
+app.get('/logout', (req, res)=>{
+  res.clearCookie("tokenAuth")
+  return res.json({Status:"OK"})
+})
+
+
 const bcrypt = require('bcrypt');
 var cors = require('cors');
 app.use(cors({
@@ -27,22 +50,6 @@ app.use(cors({
   credentials : true
 }));
 
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) {
-    return res.sendStatus(401); // Si pas de token, renvoie une erreur 401 (Non autorisé)
-  }
-
-  jwt.verify(token, SECRET_KEY, { algorithms: ['RS256'] }, (err, user) => {
-    if (err) {
-      return res.sendStatus(403); // Si le token est invalide, renvoie une erreur 403 (Interdit)
-    }
-    req.user = user;
-    next(); // Si le token est valide, passe à l'étape suivante
-  });
-};
 //vérification de connexion
 app.post('/api/login', async (req, res) => {
   
@@ -64,6 +71,8 @@ app.post('/api/login', async (req, res) => {
         res.cookie('tokenAuth',token);
     // Envoi de la réponse avec les données de l'utilisateur inséré
     return res.json({ message : nom });
+    }else{
+      return res.json({ message : "non connu" });
     }
   } catch (error) {
     console.error('Erreur lors de la vérification de l\'utilisateur :', error.message);
